@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{2311A35A-630F-8D56-15CD-BBB525570F8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStack.Excel.OpenXmlStyles", "InStack.Excel.OpenXmlStyles\InStack.Excel.OpenXmlStyles.csproj", "{B11CDB4C-37EA-44A9-9A9B-8A761DF0C189}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStack.Excel.Builder", "InStack.Excel.Builder\InStack.Excel.Builder.csproj", "{C6D4754D-545C-44F1-B685-3727C9087E2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{BB605CF4-ECE1-4869-86DF-94FABC85924B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples", "Examples\Examples.csproj", "{EEC7380C-5DE5-4EFD-B4DC-F4EFF514B572}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kitchen", "Kitchen", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2311A35A-630F-8D56-15CD-BBB525570F8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2311A35A-630F-8D56-15CD-BBB525570F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2311A35A-630F-8D56-15CD-BBB525570F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2311A35A-630F-8D56-15CD-BBB525570F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B11CDB4C-37EA-44A9-9A9B-8A761DF0C189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B11CDB4C-37EA-44A9-9A9B-8A761DF0C189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B11CDB4C-37EA-44A9-9A9B-8A761DF0C189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B11CDB4C-37EA-44A9-9A9B-8A761DF0C189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6D4754D-545C-44F1-B685-3727C9087E2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6D4754D-545C-44F1-B685-3727C9087E2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6D4754D-545C-44F1-B685-3727C9087E2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6D4754D-545C-44F1-B685-3727C9087E2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB605CF4-ECE1-4869-86DF-94FABC85924B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB605CF4-ECE1-4869-86DF-94FABC85924B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB605CF4-ECE1-4869-86DF-94FABC85924B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB605CF4-ECE1-4869-86DF-94FABC85924B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEC7380C-5DE5-4EFD-B4DC-F4EFF514B572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEC7380C-5DE5-4EFD-B4DC-F4EFF514B572}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEC7380C-5DE5-4EFD-B4DC-F4EFF514B572}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEC7380C-5DE5-4EFD-B4DC-F4EFF514B572}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2311A35A-630F-8D56-15CD-BBB525570F8F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{BB605CF4-ECE1-4869-86DF-94FABC85924B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{EEC7380C-5DE5-4EFD-B4DC-F4EFF514B572} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A0E62448-E027-4E3B-9713-E249EF6A686C}
+	EndGlobalSection
+EndGlobal
