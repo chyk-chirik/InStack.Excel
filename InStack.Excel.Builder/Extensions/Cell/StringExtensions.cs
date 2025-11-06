@@ -9,18 +9,18 @@ public static class StringExtensions
     {
         sheet.Column += shift;
 
-        sheet._writer.FlushBufferIfNoSpace(64);
+        sheet.Writer.FlushBufferIfNoSpace(64);
 
-        sheet._writer.WriteUnsafe("<c t=\"inlineStr\" r=\""u8);
-        sheet._writer.FormatCellRefAndStyle(sheet.Row, sheet.Column, style);
+        sheet.Writer.WriteUnsafe("<c t=\"inlineStr\" r=\""u8);
+        sheet.Writer.FormatCellRefAndStyle(sheet.Row, sheet.Column, style);
 
         if (string.IsNullOrEmpty(value))
         {
-            sheet._writer.WriteUnsafe("\"/>"u8);
+            sheet.Writer.WriteUnsafe("\"/>"u8);
         }
         else
         {
-            sheet._writer.WriteUnsafe("\"><is><t>"u8);
+            sheet.Writer.WriteUnsafe("\"><is><t>"u8);
 
             if (escape)
             {
@@ -28,10 +28,10 @@ public static class StringExtensions
             }
             else
             {
-                sheet._writer.Write(value.AsSpan());
+                sheet.Writer.Write(value.AsSpan());
             }
 
-            sheet._writer.WriteUnsafe("</t></is></c>"u8);
+            sheet.Writer.WriteUnsafe("</t></is></c>"u8);
         }
         sheet.Column++;
     }
@@ -45,10 +45,10 @@ public static class StringExtensions
         {
             if (rangeIndexStart != currentPosition)
             {
-                sheet._writer.Write(valueSpan.Slice(rangeIndexStart, currentPosition - rangeIndexStart));
+                sheet.Writer.Write(valueSpan.Slice(rangeIndexStart, currentPosition - rangeIndexStart));
             }
 
-            sheet._writer.Write(replacement);
+            sheet.Writer.Write(replacement);
             rangeIndexStart = currentPosition + 1;
         }
 
@@ -78,7 +78,7 @@ public static class StringExtensions
 
         if(rangeIndexStart != valueSpan.Length)
         {
-            sheet._writer.Write(valueSpan.Slice(rangeIndexStart, valueSpan.Length - rangeIndexStart));
+            sheet.Writer.Write(valueSpan.Slice(rangeIndexStart, valueSpan.Length - rangeIndexStart));
         }
     }
 }

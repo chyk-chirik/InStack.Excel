@@ -1,6 +1,4 @@
 ﻿using ExcelUtils.Builder.RowExtensions;
-using InStack.Excel.Builder.Extensions;
-using System;
 using System.Globalization;
 using System.Numerics;
 using static InStack.Excel.Builder.Extensions.DateExtensions;
@@ -14,23 +12,23 @@ public static class NumberExtensions
     {
         sheet.Column += shift;
 
-        sheet._writer.FlushBufferIfNoSpace(64);
+        sheet.Writer.FlushBufferIfNoSpace(64);
 
-        sheet._writer.WriteUnsafe("<c t=\"n\" r=\""u8);
-        sheet._writer.FormatCellRefAndStyle(sheet.Row, sheet.Column, style);
+        sheet.Writer.WriteUnsafe("<c t=\"n\" r=\""u8);
+        sheet.Writer.FormatCellRefAndStyle(sheet.Row, sheet.Column, style);
 
         if (number is null)
         {
-            sheet._writer.WriteUnsafe("\"/>"u8);
+            sheet.Writer.WriteUnsafe("\"/>"u8);
         }
         else
         {
-            sheet._writer.WriteUnsafe("\"><v>"u8);
+            sheet.Writer.WriteUnsafe("\"><v>"u8);
 
-            number.Value.TryFormat(sheet._writer.AsSpanUnsafe(), out var bytesWritten, ['G'], CultureInfo.InvariantCulture);
-            sheet._writer.SpanUsed(bytesWritten);
+            number.Value.TryFormat(sheet.Writer.AsSpanUnsafe(), out var bytesWritten, ['G'], CultureInfo.InvariantCulture);
+            sheet.Writer.SpanUsed(bytesWritten);
 
-            sheet._writer.WriteUnsafe("</v></c>"u8);
+            sheet.Writer.WriteUnsafe("</v></c>"u8);
         }
         sheet.Column++;
     }

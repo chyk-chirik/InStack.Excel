@@ -9,9 +9,9 @@ public static class GenericExtensions
 
         for (int i = 0; i < count; i++)
         {
-            sheet._writer.Write("<c r=\""u8);
-            sheet._writer.FormatCellRefAndStyle(sheet.Row, sheet.Column, style);
-            sheet._writer.Write("\"/>"u8);
+            sheet.Writer.Write("<c r=\""u8);
+            sheet.Writer.FormatCellRefAndStyle(sheet.Row, sheet.Column, style);
+            sheet.Writer.Write("\"/>"u8);
 
             sheet.Column++;
         }
