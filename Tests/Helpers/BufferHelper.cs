@@ -7,30 +7,30 @@ namespace Tests.Helpers;
 
 internal class BufferHelper
 {
-    StreamBufferedWrapper wrapper;
+    StreamBuffer wrapper;
     public BufferHelper(Sheet sheet)
     {
-        wrapper = TestHelper.GetField<StreamBufferedWrapper, Sheet>(sheet, "_writer");
-        _buffer = TestHelper.GetField<byte[], StreamBufferedWrapper>(wrapper, "_buffer");
+        wrapper = TestHelper.GetField<StreamBuffer, Sheet>(sheet, "Writer");
+        _buffer = TestHelper.GetField<byte[], StreamBuffer>(wrapper, "_buffer");
     }
     private int _startPosition;
     private byte[] _buffer;
 
     internal void StartTrackChanges()
     {
-        _startPosition =  TestHelper.GetField<int, StreamBufferedWrapper>(wrapper, "_position");
+        _startPosition =  TestHelper.GetField<int, StreamBuffer>(wrapper, "_position");
     }
 
     internal string GetStringResult()
     {
-        var endPosition = TestHelper.GetField<int, StreamBufferedWrapper>(wrapper, "_position");
+        var endPosition = TestHelper.GetField<int, StreamBuffer>(wrapper, "_position");
 
         return Encoding.UTF8.GetString(_buffer.AsSpan(_startPosition, endPosition - _startPosition));
     }
 
     internal void FlushBuffer()
     {
-        MethodInfo? method = typeof(StreamBufferedWrapper).GetMethod(
+        MethodInfo? method = typeof(StreamBuffer).GetMethod(
            "FlushBuffer",
            BindingFlags.Instance | BindingFlags.NonPublic);
 

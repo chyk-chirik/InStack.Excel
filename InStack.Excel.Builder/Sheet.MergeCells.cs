@@ -1,4 +1,5 @@
 ﻿using InStack.Excel.Builder;
+using InStack.Excel.Builder.Extensions.Cell;
 
 namespace ExcelUtils.Builder.RowExtensions;
 
@@ -23,7 +24,7 @@ public sealed partial class Sheet
             rowEnd: Row,
             columnEnd: Column + count - 1);
 
-        WriteEmpty(count:  count, style: style);
+        this.WriteEmpty(count:  count, style: style);
     }
 
     /// <summary>
@@ -57,6 +58,6 @@ public sealed partial class Sheet
             rowEnd: Row + bottomCount,
             columnEnd: Column + rightCount - 1);
 
-        WriteEmpty(count: rightCount, style: style);
+        this.WriteEmpty(count: rightCount, style: style);
     }
 }

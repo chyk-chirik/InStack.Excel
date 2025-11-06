@@ -11,7 +11,7 @@ internal static class TestHelper
 
     internal static TField GetField<TField, TObject>(TObject obj, string fieldName)
     {
-        var field = typeof(TObject).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance)!;
+        var field = typeof(TObject).GetField(fieldName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)!;
         return (TField)field.GetValue(obj)!;
     }
 

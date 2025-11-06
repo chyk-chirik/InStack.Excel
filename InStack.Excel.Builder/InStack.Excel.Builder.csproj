@@ -6,5 +6,13 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="Sheet.MergeCells.cs" />
+	</ItemGroup>
 
+	<ItemGroup>
+        <Compile Include="Sheet.MergeCells.cs">
+	        <DependentUpon>Sheet.cs</DependentUpon>
+        </Compile>
+	</ItemGroup>
 </Project>

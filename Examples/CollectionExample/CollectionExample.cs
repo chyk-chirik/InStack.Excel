@@ -1,4 +1,5 @@
 ﻿using InStack.Excel.Builder;
+using InStack.Excel.Builder.Extensions.Cell;
 
 namespace Examples.CollectionExample;
 
@@ -17,8 +18,6 @@ public static class CollectionExample
         sheet.Write("Birth Date");
         sheet.Write("Has Kids");
 
-        sheet.EndRow();
-
         foreach (var item in source)
         {
             sheet.StartRow();
@@ -28,9 +27,7 @@ public static class CollectionExample
             sheet.Write(item.NickName, escape: true);
             sheet.Write<decimal>(item.Salary);
             sheet.Write(item.BirthDate, styles.DateFormatStyleId);
-            sheet.Write(item.HasKids);
-
-            sheet.EndRow();
+            sheet.WriteBool(item.HasKids);
         }
     }
 }

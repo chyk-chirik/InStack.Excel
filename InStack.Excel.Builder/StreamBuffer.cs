@@ -4,23 +4,27 @@ using System.Text.Unicode;
 
 namespace InStack.Excel.Builder;
 
-public sealed class StreamBufferedWrapper : IDisposable
+public sealed class StreamBuffer : IDisposable
 {
     private readonly ArrayPool<byte> _pool;
     internal readonly Stream _stream;
     private byte[] _buffer;
     private int _position;
 
-    public StreamBufferedWrapper(Stream zipStream, int bufferSize)
+    public readonly int BufferSize;
+
+    public StreamBuffer(Stream zipStream, int bufferSize)
     {
         
         _pool = ArrayPool<byte>.Shared;
         _buffer = _pool.Rent(bufferSize);
         _stream = zipStream;
+        BufferSize = bufferSize;
     }
 
+ 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal void Write(ReadOnlySpan<char> valueSpan)
+    public void Write(ReadOnlySpan<char> valueSpan)
     {
         var reuseBuffer = _buffer.AsSpan(_position);
 
@@ -43,15 +47,15 @@ public sealed class StreamBufferedWrapper : IDisposable
         }
     }
 
+   
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal void Write(ReadOnlySpan<byte> bytes)
+    public void Write(ReadOnlySpan<byte> bytes)
     {
         var maxBytesToWrite = _buffer.Length - _position;
 
         if (bytes.Length < maxBytesToWrite)
         {
-            bytes.CopyTo(_buffer.AsSpan(_position));
-            _position += bytes.Length;
+            WriteUnsafe(bytes);
         }
         else if (bytes.Length > _buffer.Length)
         {
@@ -76,21 +80,50 @@ public sealed class StreamBufferedWrapper : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal void Format(Func<Span<byte>, int> formatter, int minLength)
+    public void WriteUnsafe(ReadOnlySpan<byte> bytes)
     {
-        if (_buffer.Length - _position <= minLength)
+        bytes.CopyTo(_buffer.AsSpan(_position));
+        _position += bytes.Length;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Span<byte> AsSpan(int minimunLength)
+    {
+        if(BufferSize - _position < minimunLength)
         {
             FlushBuffer();
         }
 
-        _position += formatter(_buffer.AsSpan(_position));
+        return _buffer.AsSpan(_position);
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Span<byte> AsSpanUnsafe()
+    {
+        return _buffer.AsSpan(_position);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void SpanUsed(int actuallyUsedSpace)
+    {
+        _position += actuallyUsedSpace;
+    }
+
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void FlushBuffer()
     {
         _stream.Write(_buffer, 0, _position);
         _position = 0;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void FlushBufferIfNoSpace(int minimumSpaceRequired)
+    {
+        if(BufferSize - _position < minimumSpaceRequired) 
+        {
+            FlushBuffer();
+        }
     }
 
     public void Dispose()

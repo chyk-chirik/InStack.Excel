@@ -1,4 +1,5 @@
 ﻿using Tests.Helpers;
+using InStack.Excel.Builder.Extensions.Cell;
 
 namespace Tests;
 
@@ -15,7 +16,7 @@ public class WriteBoolCellTests
     {
         TestHelper.TestCellWrite(row, column, expectedOutput, (sheet) =>
         {
-            sheet.Write(val, style: style);
+            sheet.WriteBool(val, style: style);
         });
     }
 }

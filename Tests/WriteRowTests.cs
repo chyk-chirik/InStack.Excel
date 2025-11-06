@@ -23,22 +23,9 @@ namespace Tests
             bufferHelper.GetStringResult().ShouldBe(expectedOutput);
         }
 
-        [TestMethod]
-        public void EndRow_CloseRowTagCreated()
-        {
-            using var stream = new MemoryStream();
-            using var xlsx = new XlsxDocument(stream);
-            using var sheet = xlsx.AddSheet("sheetName");
-
-            var bufferHelper = new BufferHelper(sheet);
-
-            bufferHelper.StartTrackChanges();
-            sheet.EndRow();
-            bufferHelper.GetStringResult().ShouldBe(@"</row>");
-        }
 
         [TestMethod]
-        public void EndRowAndStartNew_CloseRowTagAndNewRowOpenTagCreated()
+        public void StartRow_CloseRowTagAndNewRowOpenTagCreated()
         {
             using var stream = new MemoryStream();
             using var xlsx = new XlsxDocument(stream);
@@ -50,7 +37,7 @@ namespace Tests
             sheet.StartRow(row: row);
 
             bufferHelper.StartTrackChanges();
-            sheet.EndRowAndStartNew();
+            sheet.StartRow();
             bufferHelper.GetStringResult().ShouldBe(@$"</row><row r=""{row + 1}"">");
         }
     }
