@@ -31,7 +31,7 @@ public static class StringExtensions
                 sheet.Writer.Write(value.AsSpan());
             }
 
-            sheet.Writer.WriteUnsafe("</t></is></c>"u8);
+            sheet.Writer.Write("</t></is></c>"u8);
         }
         sheet.Column++;
     }
