@@ -13,7 +13,7 @@ public static class CollectionExample
 
         sheet.Write("Id");
         sheet.Write("Name");
-        //sheet.Write("Nickname");
+        sheet.Write("Nickname");
         sheet.Write("Salary");
         sheet.Write("Birth Date");
         sheet.Write("Has Kids");
@@ -24,7 +24,7 @@ public static class CollectionExample
 
             sheet.Write(item.Id);
             sheet.Write(item.Name);
-            //sheet.Write(item.NickName, escape: true);
+            sheet.Write(item.NickName, escape: true);
             sheet.Write<decimal>(item.Salary);
             sheet.Write(item.BirthDate, styles.DateFormatStyleId);
             sheet.WriteBool(item.HasKids);
