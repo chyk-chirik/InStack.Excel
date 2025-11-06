@@ -1,42 +1,42 @@
-﻿using InStack.Excel.Builder.Extensions;
+﻿using ExcelUtils.Builder.RowExtensions;
 using System.Runtime.CompilerServices;
 
-namespace ExcelUtils.Builder.RowExtensions;
+namespace InStack.Excel.Builder.Extensions.Cell;
 
-public sealed partial class Sheet
+public static class StringExtensions
 {
-    public void Write(string? value, uint shift = 0, uint? style = null, bool escape = false)
+    public static void Write(this Sheet sheet, string? value, uint shift = 0, uint? style = null, bool escape = false)
     {
-        Column += shift;
+        sheet.Column += shift;
 
-        _writer.FlushBufferIfNoSpace(64);
+        sheet._writer.FlushBufferIfNoSpace(64);
 
-        _writer.WriteUnsafe("<c t=\"inlineStr\" r=\""u8);
-        _writer.FormatCellRefAndStyle(Row, Column, style);
+        sheet._writer.WriteUnsafe("<c t=\"inlineStr\" r=\""u8);
+        sheet._writer.FormatCellRefAndStyle(sheet.Row, sheet.Column, style);
 
         if (string.IsNullOrEmpty(value))
         {
-            _writer.WriteUnsafe("\"/>"u8);
+            sheet._writer.WriteUnsafe("\"/>"u8);
         }
         else
         {
-            _writer.WriteUnsafe("\"><is><t>"u8);
+            sheet._writer.WriteUnsafe("\"><is><t>"u8);
 
             if (escape)
             {
-                Escape(value.AsSpan());
+                Escape(sheet, value.AsSpan());
             }
             else
             {
-                _writer.Write(value.AsSpan());
+                sheet._writer.Write(value.AsSpan());
             }
 
-            _writer.WriteUnsafe("</t></is></c>"u8);
+            sheet._writer.WriteUnsafe("</t></is></c>"u8);
         }
-        Column++;
+        sheet.Column++;
     }
 
-    private void Escape(ReadOnlySpan<char> valueSpan)
+    private static void Escape(Sheet sheet, ReadOnlySpan<char> valueSpan)
     {
         var rangeIndexStart = 0;
 
@@ -45,10 +45,10 @@ public sealed partial class Sheet
         {
             if (rangeIndexStart != currentPosition)
             {
-                _writer.Write(valueSpan.Slice(rangeIndexStart, currentPosition - rangeIndexStart));
+                sheet._writer.Write(valueSpan.Slice(rangeIndexStart, currentPosition - rangeIndexStart));
             }
 
-            _writer.Write(replacement);
+            sheet._writer.Write(replacement);
             rangeIndexStart = currentPosition + 1;
         }
 
@@ -78,7 +78,7 @@ public sealed partial class Sheet
 
         if(rangeIndexStart != valueSpan.Length)
         {
-            _writer.Write(valueSpan.Slice(rangeIndexStart, valueSpan.Length - rangeIndexStart));
+            sheet._writer.Write(valueSpan.Slice(rangeIndexStart, valueSpan.Length - rangeIndexStart));
         }
     }
 }

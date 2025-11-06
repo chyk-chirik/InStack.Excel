@@ -1,6 +1,7 @@
 ﻿using InStack.Excel.Builder;
 using InStack.Excel.Builder.Extensions;
 using System.Text;
+using InStack.Excel.Builder.Extensions.Cell;
 
 namespace Examples.MonthlyReportExample;
 

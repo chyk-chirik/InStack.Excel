@@ -14,10 +14,10 @@ public sealed partial class Sheet : IDisposable
 {
     private readonly SheetConfig _config;
     private readonly StandardFormat _floatRowHeightFormat = new('F', 2);
-    private readonly StreamBuffer _writer;
+    public readonly StreamBuffer _writer;
 
     public uint Row { get; private set; }
-    public uint Column { get; private set; }
+    public uint Column { get; set; }
 
     public Sheet(Stream stream, SheetConfig config)
     {

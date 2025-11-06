@@ -1,4 +1,5 @@
 ﻿using Tests.Helpers;
+using InStack.Excel.Builder.Extensions.Cell;
 
 namespace Tests;
 

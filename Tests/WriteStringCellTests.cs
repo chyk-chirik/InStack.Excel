@@ -1,6 +1,7 @@
 ﻿using InStack.Excel.Builder;
 using Shouldly;
 using Tests.Helpers;
+using InStack.Excel.Builder.Extensions.Cell;
 
 namespace Tests;
 

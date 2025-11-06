@@ -1,4 +1,5 @@
 ﻿using InStack.Excel.Builder;
+using InStack.Excel.Builder.Extensions.Cell;
 
 namespace Examples.CollectionExample;
 
@@ -28,7 +29,7 @@ public static class CollectionExample
             //sheet.Write(item.NickName, escape: true);
             sheet.Write<decimal>(item.Salary);
             sheet.Write(item.BirthDate, styles.DateFormatStyleId);
-            sheet.Write(item.HasKids);
+            sheet.WriteBool(item.HasKids);
 
             sheet.EndRow();
         }
