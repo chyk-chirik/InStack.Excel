@@ -9,16 +9,18 @@ public sealed partial class Sheet
     {
         Column += shift;
 
-        _writer.Write("<c t=\"inlineStr\" r=\""u8);
+        _writer.FlushBufferIfNoSpace(64);
+
+        _writer.WriteUnsafe("<c t=\"inlineStr\" r=\""u8);
         _writer.FormatCellRefAndStyle(Row, Column, style);
 
         if (string.IsNullOrEmpty(value))
         {
-            _writer.Write("\"/>"u8);
+            _writer.WriteUnsafe("\"/>"u8);
         }
         else
         {
-            _writer.Write("\"><is><t>"u8);
+            _writer.WriteUnsafe("\"><is><t>"u8);
 
             if (escape)
             {
@@ -29,7 +31,7 @@ public sealed partial class Sheet
                 _writer.Write(value.AsSpan());
             }
 
-            _writer.Write("</t></is></c>"u8);
+            _writer.WriteUnsafe("</t></is></c>"u8);
         }
         Column++;
     }

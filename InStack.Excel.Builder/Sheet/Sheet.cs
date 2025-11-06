@@ -1,9 +1,12 @@
 ﻿using InStack.Excel.Builder;
 using InStack.Excel.Builder.Extensions;
+using System;
 using System.Buffers;
 using System.Buffers.Text;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ExcelUtils.Builder.RowExtensions;
 
@@ -11,14 +14,14 @@ public sealed partial class Sheet : IDisposable
 {
     private readonly SheetConfig _config;
     private readonly StandardFormat _floatRowHeightFormat = new('F', 2);
-    private readonly StreamBufferedWrapper _writer;
+    private readonly StreamBuffer _writer;
 
     public uint Row { get; private set; }
     public uint Column { get; private set; }
 
     public Sheet(Stream stream, SheetConfig config)
     {
-        _writer = new StreamBufferedWrapper(stream, config.BufferSizeInBytes);
+        _writer = new StreamBuffer(stream, config.BufferSizeInBytes);
         _config = config;
 
         _writer.Write(@"<?xml version=""1.0"" encoding=""utf-8""?>
@@ -47,7 +50,7 @@ public sealed partial class Sheet : IDisposable
 
         _writer.Write("<row r=\""u8);
 
-        _writer.Format((buffer) => UintByteFormatter.Format(buffer, Row), 8);
+        _writer.SpanUsed(UintByteFormatter.Format(_writer.AsSpan(8), Row));
 
         _writer.Write("\""u8);
 
@@ -55,10 +58,8 @@ public sealed partial class Sheet : IDisposable
         {
             _writer.Write(" customHeight=\"1\" ht=\""u8);
 
-            _writer.Format((buffer) => {
-                Utf8Formatter.TryFormat(height.Value, buffer, out var bytesWritten, _floatRowHeightFormat);
-                return bytesWritten;
-            }, 64);
+            Utf8Formatter.TryFormat(height.Value, _writer.AsSpan(16), out var bytesWritten, _floatRowHeightFormat);
+            _writer.SpanUsed(bytesWritten);
 
             _writer.Write("\""u8);
         }

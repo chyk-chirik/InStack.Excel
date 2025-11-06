@@ -1,4 +1,5 @@
 ﻿using InStack.Excel.Builder.Extensions;
+using System;
 using System.Globalization;
 using System.Numerics;
 using static InStack.Excel.Builder.Extensions.DateExtensions;
@@ -12,23 +13,23 @@ public sealed partial class Sheet
     {
         Column += shift;
 
-        _writer.Write("<c t=\"n\" r=\""u8);
+        _writer.FlushBufferIfNoSpace(64);
+
+        _writer.WriteUnsafe("<c t=\"n\" r=\""u8);
         _writer.FormatCellRefAndStyle(Row, Column, style);
 
         if (number is null)
         {
-            _writer.Write("\"/>"u8);
+            _writer.WriteUnsafe("\"/>"u8);
         }
         else
         {
-            _writer.Write("\"><v>"u8);
+            _writer.WriteUnsafe("\"><v>"u8);
 
-            _writer.Format((buffer) => {
-                number.Value.TryFormat(buffer, out var bytesWritten, ['G'], CultureInfo.InvariantCulture);
-                return bytesWritten;
-            }, 64);
+            number.Value.TryFormat(_writer.AsSpanUnsafe(), out var bytesWritten, ['G'], CultureInfo.InvariantCulture);
+            _writer.SpanUsed(bytesWritten);
 
-            _writer.Write("</v></c>"u8);
+            _writer.WriteUnsafe("</v></c>"u8);
         }
         Column++;
     }

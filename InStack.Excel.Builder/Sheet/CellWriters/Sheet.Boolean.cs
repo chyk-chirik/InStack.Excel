@@ -8,7 +8,7 @@ public sealed partial class Sheet
     {
         Column += shift;
 
-        _writer.Write("<c t=\"b\" r=\""u8);
+        _writer.WriteUnsafe("<c t=\"b\" r=\""u8);
         _writer.FormatCellRefAndStyle(Row, Column, style);
 
         if (value is null)
@@ -20,10 +20,10 @@ public sealed partial class Sheet
             switch (value)
             {
                 case true:
-                    _writer.Write("\"><v>1</v></c>"u8);
+                    _writer.WriteUnsafe("\"><v>1</v></c>"u8);
                     break;
                 case false:
-                    _writer.Write("\"><v>0</v></c>"u8);
+                    _writer.WriteUnsafe("\"><v>0</v></c>"u8);
                     break;
             }
         }
