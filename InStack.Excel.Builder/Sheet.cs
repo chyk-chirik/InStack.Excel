@@ -42,6 +42,11 @@ public sealed partial class Sheet : IDisposable
 
     public void StartRow(uint? row = null, uint? column = null, double? height = null)
     {
+        if(Row != 0)
+        {
+            Writer.Write("</row>"u8);
+        }
+
         Row = row ?? Row + 1;
         Column = column ?? 1;
 
@@ -64,21 +69,14 @@ public sealed partial class Sheet : IDisposable
         Writer.Write(">"u8);
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void EndRow()
-    {
-        Writer.Write("</row>"u8);
-    }
-
-    public void EndRowAndStartNew(uint? row = null, uint? column = null, double? height = null)
-    {
-        EndRow();
-        StartRow(row, column, height);
-    }
-
     public void Dispose()
     {
         //	<autoFilter ref="A1:E5" />
+
+        if(Row != 0)
+        {
+            Writer.Write("</row>"u8);
+        }
 
         Writer.Write("</sheetData>"u8);
 

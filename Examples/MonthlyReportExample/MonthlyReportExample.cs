@@ -51,7 +51,7 @@ public static class MonthlyReportExample
         sheet.Write("Q4", style: headerStyles.LeftAndBottom);
         sheet.MergePrevCellToRight(count: 2, style: headerStyles.LeftAndBottom);
 
-        sheet.EndRowAndStartNew(column: columnBegin);
+        sheet.StartRow(column: columnBegin);
 
         sheet.WriteEmpty(style: headerStyles.NoBorder);
         sheet.Write("Jan", style: headerStyles.Left);
@@ -73,7 +73,7 @@ public static class MonthlyReportExample
 
         foreach (var category in categories)
         {
-            sheet.EndRowAndStartNew(column: columnBegin);
+            sheet.StartRow(column: columnBegin);
 
             var rowStyle = sheet.Row % 2 == 0
                 ? tableStyles.Even
@@ -98,11 +98,11 @@ public static class MonthlyReportExample
             sheet.Write<int>(category.Dec, style: rowStyle);
         }
 
-        sheet.EndRowAndStartNew(column: columnBegin, height: 5);
+        sheet.StartRow(column: columnBegin, height: 5);
 
         sheet.WriteEmpty(count: 13, style: tableStyles.Divider);
 
-        sheet.EndRowAndStartNew(column: columnBegin);
+        sheet.StartRow(column: columnBegin);
 
         sheet.Write("Number formula:", style: tableStyles.Total);
 
@@ -118,8 +118,6 @@ public static class MonthlyReportExample
             sheet.WriteNumberFormula(formula[..offset], style: tableStyles.Total);
         }
 
-        sheet.EndRowAndStartNew(column: columnBegin);
-
-        sheet.EndRow();
+        sheet.StartRow(column: columnBegin);
     }
 }

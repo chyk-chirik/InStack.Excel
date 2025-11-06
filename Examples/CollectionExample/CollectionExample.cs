@@ -18,8 +18,6 @@ public static class CollectionExample
         sheet.Write("Birth Date");
         sheet.Write("Has Kids");
 
-        sheet.EndRow();
-
         foreach (var item in source)
         {
             sheet.StartRow();
@@ -30,8 +28,6 @@ public static class CollectionExample
             sheet.Write<decimal>(item.Salary);
             sheet.Write(item.BirthDate, styles.DateFormatStyleId);
             sheet.WriteBool(item.HasKids);
-
-            sheet.EndRow();
         }
     }
 }

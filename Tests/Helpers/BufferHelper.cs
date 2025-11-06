@@ -10,7 +10,7 @@ internal class BufferHelper
     StreamBuffer wrapper;
     public BufferHelper(Sheet sheet)
     {
-        wrapper = TestHelper.GetField<StreamBuffer, Sheet>(sheet, "_writer");
+        wrapper = TestHelper.GetField<StreamBuffer, Sheet>(sheet, "Writer");
         _buffer = TestHelper.GetField<byte[], StreamBuffer>(wrapper, "_buffer");
     }
     private int _startPosition;
