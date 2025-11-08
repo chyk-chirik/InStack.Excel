@@ -33,39 +33,40 @@ public static class MonthlyReportExample
     {
         using var sheet = builder.AddSheet("Monthly Report", new SheetConfig { Columns = [new(3, 3, 30)] });
 
-        uint columnBegin = 3;
-        sheet.StartRow(row:3, column:columnBegin);
+        uint column = 3;
+        sheet.StartRow(row:3);
 
-        sheet.Write("Category", style: headerStyles.NoBorder);
-        sheet.MergePrevCellToBottom();
+        sheet.MergeCellToBottom(column);
+        sheet.Write("Category", column++, style: headerStyles.NoBorder);
 
-        sheet.Write("Q1", style: headerStyles.LeftAndBottom);
-        sheet.MergePrevCellToRight(count: 2, style: headerStyles.LeftAndBottom);
+        sheet.Write("Q1", column, style: headerStyles.LeftAndBottom);
+        column = sheet.MergeCellToRight(column , count: 2, style: headerStyles.LeftAndBottom);
 
-        sheet.Write("Q2", style: headerStyles.LeftAndBottom);
-        sheet.MergePrevCellToRight(count: 2, style: headerStyles.LeftAndBottom);
+        sheet.Write("Q2", column, style: headerStyles.LeftAndBottom);
+        column = sheet.MergeCellToRight(column, count: 2, style: headerStyles.LeftAndBottom);
 
-        sheet.Write("Q3", style: headerStyles.LeftAndBottom);
-        sheet.MergePrevCellToRight(count: 2, style: headerStyles.LeftAndBottom);
+        sheet.Write("Q3", column, style: headerStyles.LeftAndBottom);
+        column = sheet.MergeCellToRight(column, count: 2, style: headerStyles.LeftAndBottom);
 
-        sheet.Write("Q4", style: headerStyles.LeftAndBottom);
-        sheet.MergePrevCellToRight(count: 2, style: headerStyles.LeftAndBottom);
+        sheet.Write("Q4", column, style: headerStyles.LeftAndBottom);
+        column = sheet.MergeCellToRight(column, count: 2, style: headerStyles.LeftAndBottom);
 
-        sheet.StartRow(column: columnBegin);
+        sheet.StartRow();
+        column = 3;
 
-        sheet.WriteEmpty(style: headerStyles.NoBorder);
-        sheet.Write("Jan", style: headerStyles.Left);
-        sheet.Write("Feb", style: headerStyles.Left);
-        sheet.Write("Mar", style: headerStyles.Left);
-        sheet.Write("Apr", style: headerStyles.Left);
-        sheet.Write("May", style: headerStyles.Left);
-        sheet.Write("Jun", style: headerStyles.Left);
-        sheet.Write("Jul", style: headerStyles.Left);
-        sheet.Write("Aug", style: headerStyles.Left);
-        sheet.Write("Sep", style: headerStyles.Left);
-        sheet.Write("Oct", style: headerStyles.Left);
-        sheet.Write("Nov", style: headerStyles.Left);
-        sheet.Write("Dec", style: headerStyles.Left);
+        sheet.WriteEmpty(column++, style: headerStyles.NoBorder);
+        sheet.Write("Jan", column++, style: headerStyles.Left);
+        sheet.Write("Feb", column++, style: headerStyles.Left);
+        sheet.Write("Mar", column++, style: headerStyles.Left);
+        sheet.Write("Apr", column++, style: headerStyles.Left);
+        sheet.Write("May", column++, style: headerStyles.Left);
+        sheet.Write("Jun", column++, style: headerStyles.Left);
+        sheet.Write("Jul", column++, style: headerStyles.Left);
+        sheet.Write("Aug", column++, style: headerStyles.Left);
+        sheet.Write("Sep", column++, style: headerStyles.Left);
+        sheet.Write("Oct", column++, style: headerStyles.Left);
+        sheet.Write("Nov", column++, style: headerStyles.Left);
+        sheet.Write("Dec", column++, style: headerStyles.Left);
 
         var categories = GetCategories();
         uint firstCategoryRow = sheet.Row + 1;
@@ -73,7 +74,8 @@ public static class MonthlyReportExample
 
         foreach (var category in categories)
         {
-            sheet.StartRow(column: columnBegin);
+            sheet.StartRow();
+            column = 3;
 
             var rowStyle = sheet.Row % 2 == 0
                 ? tableStyles.Even
@@ -83,41 +85,35 @@ public static class MonthlyReportExample
                 ? tableStyles.EvenCategory
                 : tableStyles.OddCategory;
 
-            sheet.Write(category.Name, style: categoryStyle);
-            sheet.Write<int>(category.Jan, style: rowStyle);
-            sheet.Write<int>(category.Feb, style: rowStyle);
-            sheet.Write<int>(category.Mar, style: rowStyle);
-            sheet.Write<int>(category.Apr, style: rowStyle);
-            sheet.Write<int>(category.May, style: rowStyle);
-            sheet.Write<int>(category.Jun, style: rowStyle);
-            sheet.Write<int>(category.Jul, style: rowStyle);
-            sheet.Write<int>(category.Aug, style: rowStyle);
-            sheet.Write<int>(category.Sep, style: rowStyle);
-            sheet.Write<int>(category.Oct, style: rowStyle);
-            sheet.Write<int>(category.Nov, style: rowStyle);
-            sheet.Write<int>(category.Dec, style: rowStyle);
+            sheet.Write(category.Name, column++, style: categoryStyle);
+            sheet.Write<int>(category.Jan, column++, style: rowStyle);
+            sheet.Write<int>(category.Feb, column++, style: rowStyle);
+            sheet.Write<int>(category.Mar, column++, style: rowStyle);
+            sheet.Write<int>(category.Apr, column++, style: rowStyle);
+            sheet.Write<int>(category.May, column++, style: rowStyle);
+            sheet.Write<int>(category.Jun, column++, style: rowStyle);
+            sheet.Write<int>(category.Jul, column++, style: rowStyle);
+            sheet.Write<int>(category.Aug, column++, style: rowStyle);
+            sheet.Write<int>(category.Sep, column++, style: rowStyle);
+            sheet.Write<int>(category.Oct, column++, style: rowStyle);
+            sheet.Write<int>(category.Nov, column++, style: rowStyle);
+            sheet.Write<int>(category.Dec, column++, style: rowStyle);
         }
 
-        sheet.StartRow(column: columnBegin, height: 5);
+        sheet.StartRow(height: 5);
 
-        sheet.WriteEmpty(count: 13, style: tableStyles.Divider);
+        sheet.WriteEmpty(3, count: 13, style: tableStyles.Divider);
 
-        sheet.StartRow(column: columnBegin);
+        sheet.StartRow();
+        column = 3;
 
-        sheet.Write("Number formula:", style: tableStyles.Total);
+        sheet.Write("Number formula:", column++, style: tableStyles.Total);
 
         Span<byte> formula = stackalloc byte[16];
 
-        for (var column = sheet.Column; column <= columnBegin + 12; column++)
+        for (var formulaColumn = column; formulaColumn <= column + 12; formulaColumn++)
         {
-            var offset = Encoding.UTF8.GetBytes("SUM(", formula);
-            offset += CellReferenceFormatter.Format(formula[offset..], firstCategoryRow, column);
-            formula[offset++] = (byte)':';
-            offset += CellReferenceFormatter.Format(formula[offset..], lastCategoryRow, column);
-            formula[offset++] = (byte)')';
-            sheet.WriteNumberFormula(formula[..offset], style: tableStyles.Total);
+            sheet.WriteSum(formulaColumn, formulaColumn, firstCategoryRow, lastCategoryRow, tableStyles.Total);
         }
-
-        sheet.StartRow(column: columnBegin);
     }
 }

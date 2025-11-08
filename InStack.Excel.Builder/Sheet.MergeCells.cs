@@ -16,7 +16,7 @@ public sealed partial class Sheet
     /// </summary>
     /// <param name="count">Amount of cells to merge with main</param>
     /// <param name="style">Style of the main cell</param>
-    public void MergeCellToRight(uint column, uint count = 1, uint? style = null)
+    public uint MergeCellToRight(uint column, uint count = 1, uint? style = null)
     {
         _mergeCellManager.Add(
             rowStart: Row,
@@ -25,6 +25,7 @@ public sealed partial class Sheet
             columnEnd: column + count);
 
         this.WriteEmpty(column + 1, count:  count, style: style);
+        return column + count + 1;
     }
 
     /// <summary>
