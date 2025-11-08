@@ -16,6 +16,7 @@ public sealed partial class Sheet
     /// </summary>
     /// <param name="count">Amount of cells to merge with main</param>
     /// <param name="style">Style of the main cell</param>
+    /// <param name="column">Main cell in merge</param>
     public uint MergeCellToRight(uint column, uint count = 1, uint? style = null)
     {
         _mergeCellManager.Add(
@@ -34,6 +35,7 @@ public sealed partial class Sheet
     /// </summary>
     /// <param name="count">Amount of cells to merge with main</param>
     /// <param name="style">Style of the main cell</param>
+    /// <param name="column">Main cell in merge</param>
     public void MergeCellToBottom(uint column, uint count = 1)
     {
         _mergeCellManager.Add(
@@ -51,6 +53,7 @@ public sealed partial class Sheet
     /// <param name="rightCount"></param>
     /// <param name="bottomCount"></param>
     /// <param name="style">Style of the main cell</param>
+    /// <param name="column">Main cell in merge</param>
     public void MergeCellToRightAndBottom(uint column, uint rightCount, uint bottomCount, uint? style = null)
     {
         _mergeCellManager.Add(

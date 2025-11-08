@@ -14,7 +14,7 @@ public static class CollectionExample
         
         sheet.Write("Id", column++);
         sheet.Write("Name", column++);
-       // sheet.Write("Nickname", column++);
+        sheet.Write("Nickname", column++);
         sheet.Write("Salary", column++);
         sheet.Write("Birth Date", column++);
         sheet.Write("Has Kids", column++);
@@ -26,7 +26,7 @@ public static class CollectionExample
 
             sheet.Write(item.Id, column++);
             sheet.Write(item.Name, column++);
-           // sheet.Write(item.NickName, column++, escape: true);
+            sheet.Write(item.NickName, column++, escape: true);
             sheet.Write<decimal>(item.Salary, column++);
             sheet.Write(item.BirthDate, column++, styles.DateFormatStyleId);
             sheet.WriteBool(item.HasKids, column++);
