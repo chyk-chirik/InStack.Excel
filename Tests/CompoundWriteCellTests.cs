@@ -17,25 +17,27 @@ public class CompoundWriteCellTests
         using (var xlsx = new XlsxDocument(testStreamManager))
         using (var sheet = xlsx.AddSheet("sheetName"))
         {
-            sheet.StartRow(row: 1, column: 1, height: 12);
+            uint column = 1;
 
-            sheet.Write("String");
-            sheet.WriteBool(true, style: 1);
-            sheet.Write<int>(3, style: 2);
-            sheet.Write<decimal>(3.12M, style: 3);
-            sheet.Write(DateTime.UtcNow, style: 4);
+            sheet.StartRow(row: 1, height: 12);
 
-            sheet.MergePrevCellToBottom();
+            sheet.Write("String", column++);
+            sheet.WriteBool(true, column++, style: 1);
+            sheet.Write<int>(3, column++, style: 2);
+            sheet.Write<decimal>(3.12M, column++, style: 3);
+            sheet.Write(DateTime.UtcNow, column++, style: 4);
+
+            sheet.MergeCellToBottom(column);
 
             sheet.StartRow();
 
             sheet.Write(TestHelper.StringLengthOf_4096, 1000);
-            sheet.WriteBool(true);
-            sheet.Write<int>(3);
-            sheet.Write<decimal>(3.12M);
-            sheet.Write(DateTime.UtcNow);
+            sheet.WriteBool(true, column++);
+            sheet.Write<int>(3, column++);
+            sheet.Write<decimal>(3.12M, column++);
+            sheet.Write(DateTime.UtcNow, column++);
 
-            sheet.MergePrevCellToRight();
+            sheet.MergeCellToRight(column);
         }
 
         Should.NotThrow(() =>

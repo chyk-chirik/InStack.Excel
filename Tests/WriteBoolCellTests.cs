@@ -14,7 +14,7 @@ public class WriteBoolCellTests
     [DataRow(null, (uint)1, (uint)1, null, @"<c t=""b"" r=""A1""/>")]
     public void WriteBool_CorrectCellGenerated(bool? val, uint? row, uint column, uint? style, string expectedOutput)
     {
-        TestHelper.TestCellWrite(row, column, expectedOutput, (sheet) =>
+        TestHelper.TestCellWrite(row, expectedOutput, (sheet) =>
         {
             sheet.WriteBool(val, column, style: style);
         });

@@ -15,7 +15,7 @@ internal static class TestHelper
         return (TField)field.GetValue(obj)!;
     }
 
-    internal static void TestCellWrite(uint? row, uint? column, string expectedOutput, Action<Sheet> writeCell, SheetConfig? sheetConfig = null)
+    internal static void TestCellWrite(uint? row, string expectedOutput, Action<Sheet> writeCell, SheetConfig? sheetConfig = null)
     {
         using var stream = new MemoryStream();
         using var xlsx = new XlsxDocument(stream);
@@ -23,7 +23,7 @@ internal static class TestHelper
 
         var bufferHelper = new BufferHelper(sheet);
 
-        sheet.StartRow(row: row, column: column);
+        sheet.StartRow(row: row);
 
         bufferHelper.StartTrackChanges();
         writeCell(sheet);

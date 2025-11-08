@@ -33,7 +33,7 @@ public sealed partial class Sheet
     /// </summary>
     /// <param name="count">Amount of cells to merge with main</param>
     /// <param name="style">Style of the main cell</param>
-    public void MergePrevCellToBottom(uint column, uint count = 1)
+    public void MergeCellToBottom(uint column, uint count = 1)
     {
         _mergeCellManager.Add(
             rowStart: Row,
