@@ -4,12 +4,10 @@ namespace InStack.Excel.Builder.Extensions.Cell;
 
 public static class BooleanExtensions
 {
-    public static void WriteBool(this Sheet sheet, bool? value, uint shift = 0, uint? style = null)
+    public static void WriteBool(this Sheet sheet, bool? value, uint column, uint? style = null)
     {
-        sheet.Column += shift;
-
         sheet.Writer.WriteUnsafe("<c t=\"b\" r=\""u8);
-        sheet.Writer.FormatCellRefAndStyle(sheet.Row, sheet.Column, style);
+        sheet.Writer.FormatCellRefAndStyle(sheet.Row, column, style);
 
         if (value is null)
         {
@@ -27,7 +25,5 @@ public static class BooleanExtensions
                     break;
             }
         }
-
-        sheet.Column++;
     }
 }

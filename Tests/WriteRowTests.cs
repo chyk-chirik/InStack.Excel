@@ -19,7 +19,7 @@ namespace Tests
             var bufferHelper = new BufferHelper(sheet);
 
             bufferHelper.StartTrackChanges();
-            sheet.StartRow(row: row, column: 123456, height: rowHeight); // random column
+            sheet.StartRow(row: row, height: rowHeight);
             bufferHelper.GetStringResult().ShouldBe(expectedOutput);
         }
 

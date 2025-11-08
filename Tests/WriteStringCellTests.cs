@@ -15,21 +15,21 @@ public class WriteStringCellTests
     [DataRow("nostyle", (uint)1, (uint)1, null, @"<c t=""inlineStr"" r=""A1""><is><t>nostyle</t></is></c>")]
     [DataRow(null, (uint)1, (uint)1, null, @"<c t=""inlineStr"" r=""A1""/>")]
     [DataRow("", (uint)1, (uint)1, null, @"<c t=""inlineStr"" r=""A1""/>")]
-    public void WriteShortInlineString_CorrectCellGenerated(string? val, uint? row, uint? column, uint? style, string expectedOutput)
+    public void WriteShortInlineString_CorrectCellGenerated(string? val, uint? row, uint column, uint? style, string expectedOutput)
     {
-        TestHelper.TestCellWrite(row, column, expectedOutput, (sheet) =>
+        TestHelper.TestCellWrite(row, expectedOutput, (sheet) =>
         {
-            sheet.Write(val, style: style, escape: false);
+            sheet.Write(val, column, style: style, escape: false);
         });
     }
 
     [TestMethod]
     [DataRow("<Big> \"Boy\" & 'co'", (uint)1, (uint)1, null, @"<c t=""inlineStr"" r=""A1""><is><t>&lt;Big&gt; &quot;Boy&quot; &amp; &apos;co&apos;</t></is></c>")]
-    public void WriteShortInlineStringEscaped_CorrectCellGenerated(string? val, uint? row, uint? column, uint? style, string expectedOutput)
+    public void WriteShortInlineStringEscaped_CorrectCellGenerated(string? val, uint? row, uint column, uint? style, string expectedOutput)
     {
-        TestHelper.TestCellWrite(row, column, expectedOutput, (sheet) =>
+        TestHelper.TestCellWrite(row, expectedOutput, (sheet) =>
         {
-            sheet.Write(val, style: style, escape: true);
+            sheet.Write(val, column, style: style, escape: true);
         });
     }
 
@@ -46,9 +46,9 @@ public class WriteStringCellTests
         {
             sheetStream = testStreamManager.Entries["xl/worksheets/sheet1.xml"];
 
-            sheet.StartRow(row: 1, column: 1, height: 12);
+            sheet.StartRow(row: 1, height: 12);
 
-            sheet.Write(TestHelper.StringLengthOf_4096);
+            sheet.Write(TestHelper.StringLengthOf_4096, 1);
            
             var bufferHelper = new BufferHelper(sheet);
             bufferHelper.FlushBuffer();

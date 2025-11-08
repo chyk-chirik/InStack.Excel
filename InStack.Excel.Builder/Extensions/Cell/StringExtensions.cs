@@ -5,14 +5,12 @@ namespace InStack.Excel.Builder.Extensions.Cell;
 
 public static class StringExtensions
 {
-    public static void Write(this Sheet sheet, string? value, uint shift = 0, uint? style = null, bool escape = false)
+    public static void Write(this Sheet sheet, string? value, uint column, uint? style = null, bool escape = false)
     {
-        sheet.Column += shift;
-
         sheet.Writer.FlushBufferIfNoSpace(64);
 
         sheet.Writer.WriteUnsafe("<c t=\"inlineStr\" r=\""u8);
-        sheet.Writer.FormatCellRefAndStyle(sheet.Row, sheet.Column, style);
+        sheet.Writer.FormatCellRefAndStyle(sheet.Row, column, style);
 
         if (string.IsNullOrEmpty(value))
         {
@@ -33,7 +31,6 @@ public static class StringExtensions
 
             sheet.Writer.Write("</t></is></c>"u8);
         }
-        sheet.Column++;
     }
 
     private static void Escape(Sheet sheet, ReadOnlySpan<char> valueSpan)
