@@ -10,24 +10,26 @@ public static class CollectionExample
         using var sheet = builder.AddSheet("Collection Example");
 
         sheet.StartRow();
-
-        sheet.Write("Id");
-        sheet.Write("Name");
-        sheet.Write("Nickname");
-        sheet.Write("Salary");
-        sheet.Write("Birth Date");
-        sheet.Write("Has Kids");
+        uint column = 1;
+        
+        sheet.Write("Id", column++);
+        sheet.Write("Name", column++);
+       // sheet.Write("Nickname", column++);
+        sheet.Write("Salary", column++);
+        sheet.Write("Birth Date", column++);
+        sheet.Write("Has Kids", column++);
 
         foreach (var item in source)
         {
             sheet.StartRow();
+            column = 1;
 
-            sheet.Write(item.Id);
-            sheet.Write(item.Name);
-            sheet.Write(item.NickName, escape: true);
-            sheet.Write<decimal>(item.Salary);
-            sheet.Write(item.BirthDate, styles.DateFormatStyleId);
-            sheet.WriteBool(item.HasKids);
+            sheet.Write(item.Id, column++);
+            sheet.Write(item.Name, column++);
+           // sheet.Write(item.NickName, column++, escape: true);
+            sheet.Write<decimal>(item.Salary, column++);
+            sheet.Write(item.BirthDate, column++, styles.DateFormatStyleId);
+            sheet.WriteBool(item.HasKids, column++);
         }
     }
 }

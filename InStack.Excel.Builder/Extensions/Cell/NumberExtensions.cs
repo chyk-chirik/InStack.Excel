@@ -7,15 +7,13 @@ namespace InStack.Excel.Builder.Extensions.Cell;
 
 public static class NumberExtensions
 {
-    public static void Write<T>(this Sheet sheet, T? number, uint shift = 0, uint? style = null)
+    public static void Write<T>(this Sheet sheet, T? number, uint column, uint? style = null)
       where T : struct, INumber<T>
     {
-        sheet.Column += shift;
-
         sheet.Writer.FlushBufferIfNoSpace(64);
 
         sheet.Writer.WriteUnsafe("<c t=\"n\" r=\""u8);
-        sheet.Writer.FormatCellRefAndStyle(sheet.Row, sheet.Column, style);
+        sheet.Writer.FormatCellRefAndStyle(sheet.Row, column, style);
 
         if (number is null)
         {
@@ -30,7 +28,6 @@ public static class NumberExtensions
 
             sheet.Writer.WriteUnsafe("</v></c>"u8);
         }
-        sheet.Column++;
     }
 
     public static void Write(this Sheet sheet, DateTime? date, uint shift = 0, uint? style = null)

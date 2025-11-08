@@ -47,15 +47,15 @@ public class BenchmarkEpPlusOpenXml
     }
 
 
-    [Benchmark]
-    public void EpPlus()
-    {
-        using var pck = new ExcelPackage(_stream);
-        var ws = pck.Workbook.Worksheets.Add(typeof(CollectionItem).Name);
-        ws.Cells["A1"].LoadFromCollection(_source, true);
+    //[Benchmark]
+    //public void EpPlus()
+    //{
+    //    using var pck = new ExcelPackage(_stream);
+    //    var ws = pck.Workbook.Worksheets.Add(typeof(CollectionItem).Name);
+    //    ws.Cells["A1"].LoadFromCollection(_source, true);
 
-        ws.Column(4).Style.Numberformat.Format = "yyyy-mm-dd";
+    //    ws.Column(4).Style.Numberformat.Format = "yyyy-mm-dd";
 
-        pck.Save();
-    }
+    //    pck.Save();
+    //}
 }

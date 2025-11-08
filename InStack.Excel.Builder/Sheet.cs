@@ -14,7 +14,6 @@ public sealed partial class Sheet : IDisposable
     public readonly StreamBuffer Writer;
 
     public uint Row { get; private set; }
-    public uint Column;
 
     public Sheet(Stream stream, SheetConfig config)
     {
@@ -40,7 +39,7 @@ public sealed partial class Sheet : IDisposable
         Writer.Write("<sheetData>"u8);
     }
 
-    public void StartRow(uint? row = null, uint? column = null, double? height = null)
+    public void StartRow(uint? row = null, double? height = null)
     {
         if(Row != 0)
         {
@@ -48,7 +47,6 @@ public sealed partial class Sheet : IDisposable
         }
 
         Row = row ?? Row + 1;
-        Column = column ?? 1;
 
         Writer.Write("<row r=\""u8);
 
