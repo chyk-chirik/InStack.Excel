@@ -111,7 +111,7 @@ public static class MonthlyReportExample
 
         Span<byte> formula = stackalloc byte[16];
 
-        for (var formulaColumn = column; formulaColumn <= column + 12; formulaColumn++)
+        for (var formulaColumn = column; formulaColumn < column + 12; formulaColumn++)
         {
             sheet.WriteSum(formulaColumn, formulaColumn, firstCategoryRow, lastCategoryRow, tableStyles.Total);
         }

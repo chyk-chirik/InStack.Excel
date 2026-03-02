@@ -8,13 +8,9 @@ public interface IZipStreamManager : IDisposable
     Stream CreateEntry(string name);
 }
 
-public sealed class ZipStreamManager: IZipStreamManager
+public sealed class ZipStreamManager(Stream output) : IZipStreamManager
 {
-    private ZipArchive _archive;
-    public ZipStreamManager(Stream output)
-    {
-        _archive = new ZipArchive(output, ZipArchiveMode.Create, leaveOpen: false);
-    }
+    private ZipArchive _archive = new ZipArchive(output, ZipArchiveMode.Create, leaveOpen: false);
 
     public Stream CreateEntry(string name)
     { 
