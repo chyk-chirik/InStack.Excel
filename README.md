@@ -46,3 +46,6 @@ public class TableHeaderStyles(...) : Style
     }
 }
 ```
+
+Later in code given style can be refernced like
+``` sheet.Write("Q1", column, style: headerStyles.LeftAndBottom);```
