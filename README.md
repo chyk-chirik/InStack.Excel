@@ -1,5 +1,50 @@
 # InStack.Excel
-Generate xlsx almost without memory allocations. Simplified work with styles
+Generate xlsx almost without memory allocations. Simplified work with styles.
+
+## Minimal example
+```
+var styles = new CollectionExampleStyles();
+var stylesXml = Style.Compile(styles);
+
+using (var builder = new XlsxDocument(_stream))
+{
+    using (var styleXmlWriter = builder.CreateStyleEntry())
+    {
+        using var xmlWriter = System.Xml.XmlWriter.Create(styleXmlWriter, new System.Xml.XmlWriterSettings { CloseOutput = true });
+        stylesXml.WriteTo(xmlWriter);
+    }
+
+    builder.CollectionExampleSheet(_source, styles);
+}
+
+ public static void CollectionExampleSheet(this XlsxDocument builder, IEnumerable<CollectionItem> source, CollectionExampleStyles styles)
+ {
+     using var sheet = builder.AddSheet("Collection Example");
+
+     sheet.StartRow();
+     uint column = 1;
+     
+     sheet.Write("Id", column++);
+     sheet.Write("Name", column++);
+     sheet.Write("Nickname", column++);
+     sheet.Write("Salary", column++);
+     sheet.Write("Birth Date", column++);
+     sheet.Write("Has Kids", column++);
+
+     foreach (var item in source)
+     {
+         sheet.StartRow();
+         column = 1;
+
+         sheet.Write(item.Id, column++);
+         sheet.Write(item.Name, column++);
+         sheet.Write(item.NickName, column++, escape: true);
+         sheet.Write<decimal>(item.Salary, column++);
+         sheet.Write(item.BirthDate, column++, styles.DateFormatStyleId);
+         sheet.WriteBool(item.HasKids, column++);
+     }
+ }
+```
 
 ## Styles
 
@@ -11,41 +56,34 @@ Work with styles is always a pain, it's easy to get corrupted file and spend a l
   Look at existing example from repo, when we need to populate CellFormat *XId*, we specify it's index from corresponding array. 
 
 ```
-public class TableHeaderStyles(...) : Style
+public class CollectionExampleStyles : Style
 {
-    ...
-    public uint LeftAndBottom { get; private set; }
-    ...
-
-    protected override List<Font> GetFonts() =>
+    public uint DateFormatStyleId { get; set; }
+    protected override List<NumberingFormat> GetNumberingFormats() =>
     [
-        new(
-            new Bold(),
-            new Color() {
-                Rgb = new HexBinaryValue() { Value = fontColor }
-            }
-        )
+        new()
+        {
+            FormatCode = StringValue.FromString("yyyy-mm-dd")
+        }
     ];
-    ...
 
     protected override List<CellFormat> GetCellFormats() =>
     [
         new()
         {
-            FontId = 1, // GetFonts array, index 1
-            ApplyFont = true,
-            ...
-        },
-        ...
+            NumberFormatId = 1, // we specify here index in GetNumberingFormats() array, 1-based
+            ApplyNumberFormat = true
+        }
     ];
 
     protected override void BaseIndexUpdated()
     {
-        LeftAndBottom = BaseIndex + 1; // Cellformat which we reference here has index 1, so must be BaseIndex + 1
-        ..
+        DateFormatStyleId = BaseIndex + 1; // position in GetCellFormats() array
     }
 }
 ```
+## More advanced example
+Code contains example **MonthlyReportExample**, outcome is 
+![Code contains example **MonthlyReportExample**, outcome is](/readme_images/example.png)
 
-Later in code given style can be refernced like
-``` sheet.Write("Q1", column, style: headerStyles.LeftAndBottom);```
+
