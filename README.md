@@ -26,33 +26,7 @@ public class TableHeaderStyles(...) : Style
             }
         )
     ];
-
-    protected override List<Fill> GetFills() =>
-    [
-        new(new PatternFill
-        {
-            PatternType = PatternValues.Solid,
-            ForegroundColor = new() { Rgb = HexBinaryValue.FromString(bgColor) }
-        })
-    ];
-
-    protected override List<Border> GetBorders() =>
-    [
-         new Border(
-            new LeftBorder{
-                Style = borderStyle,
-                Color = new Color{
-                    Rgb = new HexBinaryValue() { Value = borderColor }
-                }
-            },
-            new BottomBorder{
-                Style = borderStyle,
-                Color = new Color{
-                    Rgb = new HexBinaryValue() { Value = borderColor }
-                }
-            }),
-          ....
-    ];
+    ...
 
     protected override List<CellFormat> GetCellFormats() =>
     [
@@ -60,22 +34,14 @@ public class TableHeaderStyles(...) : Style
         {
             FontId = 1, // GetFonts array, index 1
             ApplyFont = true,
-            FillId = 1,
-            ApplyFill = true,
-            Alignment = new Alignment{
-                Horizontal = HorizontalAlignmentValues.Center,
-                Vertical = VerticalAlignmentValues.Center
-            },
-            ApplyAlignment = true,
-            BorderId = 1,
-            ApplyBorder = true,
+            ...
         },
         ...
     ];
 
     protected override void BaseIndexUpdated()
     {
-        LeftAndBottom = BaseIndex + 1;
+        LeftAndBottom = BaseIndex + 1; // Cellformat which we reference here has index 1, so must be BaseIndex + 1
         ..
     }
 }
